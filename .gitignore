@@ -1,0 +1,30 @@
+# Build and generated files
+/build/
+CMakeFiles/
+cmake_install.cmake
+CubeMX/*                # Ignore all generated files from CubeMX...
+!CubeMX/CubeMX.ioc           # ...except the .ioc (keep it tracked)
+Makefile
+CMakeCache.txt
+compile_commands.json
+cmake/IncludeList.cmake
+cmake/SourceList.cmake
+
+# CubeMX generated files
+*.ioc
+MX_*/             # CubeMX backup/project folders
+*.log
+*.launch
+
+# Binary output
+*.elf
+*.hex
+*.bin
+*.map
+
+# Editor files
+*.swp
+*~
+
+# macOS metadata
+.DS_Store

@@ -1,0 +1,39 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+        "name": "Debug with OpenOCD",
+        "type": "cortex-debug",
+        "request": "launch",
+        "servertype": "openocd",                     // stlink or openocd
+        "cwd": "${workspaceFolder}",
+        "executable": "${command:cmake.launchTargetPath}",
+        "interface": "swd",
+        "showDevDebugOutput": "both",
+        "v1": true,                                 // ST-Link version
+        "device": "STM32F429ZITx",                  // MCU used [optional]
+        "serialNumber": "",                         // Set ST-Link ID if you use multiple at the same time [optional]
+        "configFiles": [
+        "interface/stlink.cfg",
+        "target/stm32f4x.cfg"
+        ],
+        "runToEntryPoint": "main",                  // Run to main and stop there [optional]
+        "svdFile": "STM32_svd/STM32F429.svd",       // SVD file to see registers [optional]
+        // "gdbPath": " {Set gdb path manually}",
+
+    },
+// ============ This configuration file is made for st-link/openocd so make adjustments accordingly below ============
+    {
+        "name": "Debug with J-Link",
+        "type": "cortex-debug",
+        "request": "launch",
+        "servertype": "jlink",
+        "cwd": "${workspaceFolder}",
+        "executable": "${command:cmake.launchTargetPath}",
+        "device": "STM32F429ZITx",
+        "interface": "swd",                         // or "jtag" if needed
+        "serialNumber": "",                         // optional, set if multiple J-Links
+        "svdFile": "STM32_svd/STM32F429.svd"
+    }
+  ]
+}

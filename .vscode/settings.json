@@ -1,0 +1,8 @@
+{
+	"C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+	"files.associations": {
+		"stm32f4xx.h": "c",
+		"stm32f429xx.h": "c",
+		"stm32f427xx.h": "c"
+	}
+}

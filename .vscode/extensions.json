@@ -1,0 +1,33 @@
+{
+	"recommendations": [
+		// Required
+		"twxs.cmake",
+		"ms-vscode.cmake-tools",
+		
+		// Essential
+		"ms-vscode.cpptools",
+		"xaver.clang-format",
+		"akiramiyakoda.cppincludeguard",
+		"cschlosser.doxdocgen",
+		"eamodio.gitlens",
+		"mhutchie.git-graph",
+		"donjayamanne.githistory",
+		
+		// Debug
+		"marus25.cortex-debug",
+		"mcu-debug.debug-tracker-vscode",
+		"mcu-debug.memory-view",
+		"mcu-debug.rtos-views",
+
+		// Visuial
+		"jeff-hykin.better-cpp-syntax",
+		"dan-c-underwood.arm",
+		"zixuanwang.linkerscript",
+		"jeff-hykin.better-dockerfile-syntax",
+		"redhat.vscode-yaml",
+		
+		// Docker container
+		"ms-azuretools.vscode-docker",
+		"ms-vscode-remote.remote-containers",
+	]
+}
