@@ -1,0 +1,6 @@
+[
+  {
+    "name": "C/C++ CMake-Kit for arm-none-eabi 9.3.1",
+    "toolchainFile": "${workspaceRoot}/thirdparty/build-tool/cmake/stm32_gcc.cmake"
+  }
+]

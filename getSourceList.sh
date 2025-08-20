@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 
 # Load project name from config
 source ./project.conf

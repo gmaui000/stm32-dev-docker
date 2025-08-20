@@ -1,8 +1,22 @@
 {
-	"C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
-	"files.associations": {
-		"stm32f4xx.h": "c",
-		"stm32f429xx.h": "c",
-		"stm32f427xx.h": "c"
-	}
+  "cmake.generator": "Unix Makefiles",
+  "cmake.configureEnvironment": {
+    "CMAKE_EXPORT_COMPILE_COMMANDS": "on"
+  },
+  "C_Cpp.default.intelliSenseMode": "gcc-arm",
+  "files.associations": {
+    "*.dbclient-js": "javascript",
+    "stm32f4xx_hal.h": "c",
+    "stm32f4xx.h": "c",
+    "stm32f1xx_hal.h": "c",
+    "main.h": "c",
+    "gpio.h": "c",
+    "*.ttml": "xml",
+    "*.ttss": "css"
+  },
+  "cortex-debug.openocdPath": "/usr/bin/openocd",
+  "cortex-debug.armToolchainPath.linux": "/usr/local/bin",
+  "cortex-debug.armToolchainPath.windows": "C:\\ProgramData\\chocolatey\\bin",
+  "cortex-debug.gdbPath.linux": "/usr/local/bin//arm-none-eabi-gdb",
+  "cortex-debug.gdbPath.windows": "C:\\ProgramData\\chocolatey\\bin\\arm-none-eabi-gdb.exe"
 }

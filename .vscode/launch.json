@@ -1,39 +1,38 @@
 {
   "version": "0.2.0",
   "configurations": [
+    
     {
-        "name": "Debug with OpenOCD",
-        "type": "cortex-debug",
-        "request": "launch",
-        "servertype": "openocd",                     // stlink or openocd
-        "cwd": "${workspaceFolder}",
-        "executable": "${command:cmake.launchTargetPath}",
-        "interface": "swd",
-        "showDevDebugOutput": "both",
-        "v1": true,                                 // ST-Link version
-        "device": "STM32F429ZITx",                  // MCU used [optional]
-        "serialNumber": "",                         // Set ST-Link ID if you use multiple at the same time [optional]
-        "configFiles": [
-        "interface/stlink.cfg",
-        "target/stm32f4x.cfg"
-        ],
-        "runToEntryPoint": "main",                  // Run to main and stop there [optional]
-        "svdFile": "STM32_svd/STM32F429.svd",       // SVD file to see registers [optional]
-        // "gdbPath": " {Set gdb path manually}",
-
+      "cwd": "${workspaceRoot}",
+      "executable": "${workspaceRoot}/build/stm32f1.elf",
+      "name": "STM32F1 Debug",
+      "request": "launch",
+      "type": "cortex-debug",
+      "servertype": "openocd",
+      "interface": "swd",
+      "configFiles": [
+        "/usr/share/openocd/scripts/interface/stlink-v2.cfg",
+        "debug_config/stm32f1x.cfg"  //Config for F1 Boards, custom file for our cheap stlink
+      ],
+      "searchDir": [],
+      "runToEntryPoint": "main",
+      "showDevDebugOutput": "raw",
     },
-// ============ This configuration file is made for st-link/openocd so make adjustments accordingly below ============
     {
-        "name": "Debug with J-Link",
-        "type": "cortex-debug",
-        "request": "launch",
-        "servertype": "jlink",
-        "cwd": "${workspaceFolder}",
-        "executable": "${command:cmake.launchTargetPath}",
-        "device": "STM32F429ZITx",
-        "interface": "swd",                         // or "jtag" if needed
-        "serialNumber": "",                         // optional, set if multiple J-Links
-        "svdFile": "STM32_svd/STM32F429.svd"
+      "name": "Cortex Debug",
+      "cwd": "${workspaceRoot}",
+      "executable": "${workspaceRoot}/build/stm32f1.elf",
+      "request": "launch",
+      "type": "cortex-debug",
+      "servertype": "openocd",
+      "device": "STM32F103C8T6",
+      "configFiles": [
+        "interface/stlink.cfg",
+        "target/stm32f1x.cfg"
+      ],
+      "preLaunchTask": "flash-openocd",
+      "showDevDebugOutput": "raw",
+      "svdFile": "${workspaceRoot}/debug-files/STM32F103.svd"
     }
   ]
 }

@@ -1,6 +1,6 @@
 # STM32 CMake + Docker Project
 
-A modern STM32 firmware build system for the STM32F4 MCU or can be modified of any STM32xx MCU, using **CMake** and **Docker** for portability and toolchain isolation.
+A modern STM32 firmware build system for the STM32F1 MCU or can be modified of any STM32xx MCU, using **CMake** and **Docker** for portability and toolchain isolation.
 
 
 ## Docker-Based Build System
@@ -21,20 +21,19 @@ See [Embedded Development Environment Setup Guide](#embedded-development-environ
 
 ## MCU specific file
 
-Each MCU has their own ARM compiler flags. This template is defined for STM32F4. The flags can be changed in the following module.
+Each MCU has their own ARM compiler flags. This template is defined for STM32F1. The flags can be changed in the following module.
 
 > STM32_PARA.cmake
 
 ```makefile
 set(CPU_PARAMETERS ${CPU_PARAMETERS}
     -mthumb
-    -mcpu=cortex-m4
-    -mfpu=fpv4-sp-d16
-    -mfloat-abi=hard
+    -mcpu=cortex-m3
+    -mfloat-abi=soft
 )
 
 set(compiler_define ${compiler_define}
-    "STM32F429xx"
+    "STM32F10X_MD"
     #"USE_HAL_DRIVER" # uncomment and modify entire cmake template for HAL
 )
 

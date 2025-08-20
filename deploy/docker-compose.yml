@@ -1,0 +1,19 @@
+services:
+  stm32dev:
+    image: crpi-6ty60rr45g7d9i1q.cn-shanghai.personal.cr.aliyuncs.com/voyance/stm32dev
+    container_name: stm32dev
+    stdin_open: true
+    tty: true
+    environment:
+      - DISPLAY=$DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - XAUTHORITY=/tmp/.docker.xauth
+    devices:
+      - /dev/video0:/dev/video0
+      - /dev/dri:/dev/dri
+      - /dev/stlinkv2_4:/dev/stlinkv2_4
+      - /dev/bus/usb:/dev/bus/usb
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - $HOME/.Xauthority:/tmp/.docker.xauth
+      - ../:/app
