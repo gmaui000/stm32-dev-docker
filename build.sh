@@ -95,7 +95,7 @@ fi
 
 # Build the Docker image
 echo -e "${YELLOW}Building Docker image...${NC}"
-docker build -t stm32-build-env .
+docker build -t stm32-dev-docker .
 
 if [ $? -ne 0 ]; then
     echo -e "${RED}Failed to build Docker image${NC}"
@@ -109,7 +109,7 @@ case $ACTION in
     "build")
         # Run the build in Docker container
         echo -e "${YELLOW}Building STM32 project...${NC}"
-        docker run --rm -v $(pwd):/workspace stm32-build-env make all
+        docker run --rm -v $(pwd):/workspace stm32-dev-docker make all
         
         if [ $? -eq 0 ]; then
             echo -e "${GREEN}Build completed successfully!${NC}"
@@ -124,7 +124,7 @@ case $ACTION in
     "flash")
         # Build and flash
         echo -e "${YELLOW}Building STM32 project...${NC}"
-        docker run --rm -v $(pwd):/workspace stm32-build-env make all
+        docker run --rm -v $(pwd):/workspace stm32-dev-docker make all
         
         if [ $? -eq 0 ]; then
             echo -e "${GREEN}Build completed successfully!${NC}"
@@ -133,7 +133,7 @@ case $ACTION in
             # Use Docker container for OpenOCD flashing
             echo -e "${BLUE}Using Docker container for OpenOCD flashing...${NC}"
             if [ -e "/dev/bus/usb" ]; then
-                docker run --rm --privileged -v /dev/bus/usb:/dev/bus/usb -v $(pwd):/workspace stm32-build-env \
+                docker run --rm --privileged -v /dev/bus/usb:/dev/bus/usb -v $(pwd):/workspace stm32-dev-docker \
                     openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -c "program /workspace/build/time_sync.bin verify reset exit 0x08000000"
                 
                 if [ $? -eq 0 ]; then
@@ -144,7 +144,7 @@ case $ACTION in
                     
                     # Alternative method: Use Docker container for st-flash
                     echo -e "${BLUE}Using Docker container for st-flash...${NC}"
-                    docker run --rm --privileged -v /dev/bus/usb:/dev/bus/usb -v $(pwd):/workspace stm32-build-env \
+                    docker run --rm --privileged -v /dev/bus/usb:/dev/bus/usb -v $(pwd):/workspace stm32-dev-docker \
                         st-flash write /workspace/build/time_sync.bin 0x8000000
                     
                     if [ $? -eq 0 ]; then
@@ -179,7 +179,7 @@ case $ACTION in
     "clean")
         # Clean build directory
         echo -e "${YELLOW}Cleaning build directory...${NC}"
-        docker run --rm -v $(pwd):/workspace stm32-build-env make clean
+        docker run --rm -v $(pwd):/workspace stm32-dev-docker make clean
     
         if [ $? -eq 0 ]; then
             echo -e "${GREEN}Clean completed successfully!${NC}"
@@ -206,11 +206,11 @@ case $ACTION in
         echo -e "${YELLOW}To connect with GDB client:${NC}"
         echo -e "${BLUE}  ./build.sh --gdb${NC}"
         echo -e "${BLUE}  or${NC}"
-        echo -e "${BLUE}  docker run -it --rm --name stm32-runner -v \$(pwd):/workspace stm32-build-env gdb-multiarch /workspace/build/time_sync.elf${NC}"
+        echo -e "${BLUE}  docker run -it --rm --name stm32-runner -v \$(pwd):/workspace stm32-dev-docker gdb-multiarch /workspace/build/time_sync.elf${NC}"
         echo ""
         if [ -e "/dev/bus/usb" ]; then
             # Copy the debug server script to container and run it
-            docker run --init --rm --privileged --name stm32-runner -v /dev/bus/usb:/dev/bus/usb -v $(pwd):/workspace stm32-build-env \
+            docker run --init --rm --privileged --name stm32-runner -v /dev/bus/usb:/dev/bus/usb -v $(pwd):/workspace stm32-dev-docker \
                 bash -c "cp /workspace/debug_server.sh /tmp/ && chmod +x /tmp/debug_server.sh && cd /tmp && ./debug_server.sh"
         else
             echo -e "${RED}Cannot access USB devices. Please run with sudo or check permissions.${NC}"
@@ -243,7 +243,7 @@ case $ACTION in
         # Erase flash memory using Docker container
         echo -e "${YELLOW}Erasing flash memory using Docker container...${NC}"
         if [ -e "/dev/bus/usb" ]; then
-            docker run --rm --privileged -v /dev/bus/usb:/dev/bus/usb -v $(pwd):/workspace stm32-build-env \
+            docker run --rm --privileged -v /dev/bus/usb:/dev/bus/usb -v $(pwd):/workspace stm32-dev-docker \
                 openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -c "init; reset halt; stm32f1x mass_erase 0; exit"
             
             if [ $? -eq 0 ]; then
@@ -264,7 +264,7 @@ case $ACTION in
         # Reset target device using Docker container
         echo -e "${YELLOW}Resetting target device using Docker container...${NC}"
         if [ -e "/dev/bus/usb" ]; then
-            docker run --rm --privileged -v /dev/bus/usb:/dev/bus/usb -v $(pwd):/workspace stm32-build-env \
+            docker run --rm --privileged -v /dev/bus/usb:/dev/bus/usb -v $(pwd):/workspace stm32-dev-docker \
                 openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -c "init; reset; exit"
             
             if [ $? -eq 0 ]; then
@@ -285,7 +285,7 @@ case $ACTION in
         # Show device information using Docker container
         echo -e "${YELLOW}Reading device information using Docker container...${NC}"
         if [ -e "/dev/bus/usb" ]; then
-            docker run --rm --privileged -v /dev/bus/usb:/dev/bus/usb -v $(pwd):/workspace stm32-build-env \
+            docker run --rm --privileged -v /dev/bus/usb:/dev/bus/usb -v $(pwd):/workspace stm32-dev-docker \
                 openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg -c "init; flash banks; exit" 2>/dev/null | grep -E "(STM32|Flash|Size|Device)"
             
             if [ $? -eq 0 ]; then
@@ -293,7 +293,7 @@ case $ACTION in
             else
                 echo -e "${RED}Failed to read device information${NC}"
                 echo -e "${YELLOW}Trying alternative method...${NC}"
-                docker run --rm --privileged -v /dev/bus/usb:/dev/bus/usb stm32-build-env st-info --probe
+                docker run --rm --privileged -v /dev/bus/usb:/dev/bus/usb stm32-dev-docker st-info --probe
             fi
         else
             echo -e "${RED}Cannot access USB devices. Please run with sudo or check permissions.${NC}"

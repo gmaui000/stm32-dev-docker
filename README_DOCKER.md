@@ -32,10 +32,10 @@ chmod +x build.sh
 
 ```bash
 # 构建Docker镜像
-docker build -t stm32-build-env .
+docker build -t stm32-dev-docker .
 
 # 在Docker容器中构建项目
-docker run --rm -v $(pwd):/workspace stm32-build-env make all
+docker run --rm -v $(pwd):/workspace stm32-dev-docker make all
 ```
 
 ## 构建输出
@@ -50,7 +50,7 @@ docker run --rm -v $(pwd):/workspace stm32-build-env make all
 
 ```bash
 # 清理构建文件
-docker run --rm -v $(pwd):/workspace stm32-build-env make clean
+docker run --rm -v $(pwd):/workspace stm32-dev-docker make clean
 ```
 
 ## 烧录到设备
